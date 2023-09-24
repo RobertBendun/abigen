@@ -38,6 +38,7 @@ struct gen_syscall
 {
 	int number;
 	char const* name;
+	char const* short_description;
 	struct gen_signature signature;
 };
 
@@ -100,10 +101,11 @@ struct gen_constant gen_constants_storage[] = {
 
 struct gen_constants gen_constants = GEN_INITIALIZE_WITH_STORAGE(gen_constants_storage);
 
-#define GEN_SYSCALL(syscall) { \
+#define GEN_SYSCALL(syscall, short_desc) { \
 	.number = SYS_ ## syscall, \
 	.name = #syscall, \
 	.signature = GEN_INITIALIZE_WITH_STORAGE(gen_ ## syscall ## _syscall_parameters_storage), \
+	.short_description = short_desc, \
 	}
 
 struct gen_parameter gen_socket_syscall_parameters_storage[] = {
@@ -128,11 +130,35 @@ struct gen_parameter gen_read_syscall_parameters_storage[] = {
 	{ .name = "count", .kind = GEN_INT },
 };
 
+struct gen_parameter gen_close_syscall_parameters_storage[] = {
+	{ .name = "fd",    .kind = GEN_INT, },
+};
+
+struct gen_parameter gen_stat_syscall_parameters_storage[] = {
+	{ .name = "path",    .kind = GEN_PTR, },
+	{ .name = "statbuf", .kind = GEN_PTR, },
+};
+
+struct gen_parameter gen_lstat_syscall_parameters_storage[] = {
+	{ .name = "path",    .kind = GEN_PTR, },
+	{ .name = "statbuf", .kind = GEN_PTR, },
+};
+
+struct gen_parameter gen_fstat_syscall_parameters_storage[] = {
+	{ .name = "fd",    .kind = GEN_INT, },
+	{ .name = "statbuf", .kind = GEN_PTR, },
+};
+
+
 struct gen_syscall gen_syscalls_storage[] = {
-	GEN_SYSCALL(exit),
-	GEN_SYSCALL(read),
-	GEN_SYSCALL(socket),
-	GEN_SYSCALL(write),
+	GEN_SYSCALL(close,  "close a file descriptor"),
+	GEN_SYSCALL(exit,   "terminate the calling process"),
+	GEN_SYSCALL(read,   "read from a file descriptor"),
+	GEN_SYSCALL(socket, "create an endpoint for communication"),
+	GEN_SYSCALL(write,  "write to a file descriptor"),
+	GEN_SYSCALL(stat,   "get file status"),
+	GEN_SYSCALL(fstat,  "get file status"),
+	GEN_SYSCALL(lstat,  "get file status"),
 };
 
 struct gen_syscalls gen_syscalls = GEN_INITIALIZE_WITH_STORAGE(gen_syscalls_storage);

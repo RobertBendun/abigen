@@ -33,6 +33,7 @@ int main()
 
 			printf(" %s%s", syscall.signature.data[j].name, j+1 == syscall.signature.count ? ");" : ", ");
 		}
+		printf(" // %s", syscall.short_description);
 		puts("");
 	}
 }
