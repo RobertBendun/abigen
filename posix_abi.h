@@ -1,6 +1,14 @@
 #ifndef POSIX_ABI_GEN_H
 #define POSIX_ABI_GEN_H
 
+/************************************************************************
+ * This file contains POSIX ABI generated from mix of values defined in
+ * libraries and predefined information (like parameter names).
+ *
+ * To use it iterate over `gen_constants` and `gen_syscalls` arrays
+ * and emit whatever your language or assembler can parse.
+ */
+
 struct gen_constant
 {
 	char const* name;
