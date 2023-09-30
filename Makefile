@@ -1,1 +1,5 @@
-gen_c: gen_c.c posix_abi.h
+all: gen_c gen_fasm
+
+%: %.c posix_abi.h
+
+.PHONY: all
